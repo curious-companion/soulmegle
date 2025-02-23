@@ -44,6 +44,7 @@
 .input-group {
   margin-bottom: 1rem;
   text-align: left;
+  color: white;
 }
 
 .input-group label {
@@ -82,6 +83,7 @@
 
 .auth-footer {
   margin-top: 1rem;
+  color: white;
 }
 
 .auth-footer a {

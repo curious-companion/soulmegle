@@ -1,17 +1,33 @@
-import GoogleSignIn from "../components/GoogleSignIn";
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import "../styles/auth.css"; 
 import ParticlesBackground from "../components/ParticlesBackground";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const { login, GoogleSignIn } = useAuth();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Add your login logic here (e.g., call an API or handle local authentication)
+    login(email, password);    
     console.log("Logging in with:", email, password);
+    navigate("/select-interest")
+  };
+
+  const handleGoogleSignIn = async()=>{
+    try{
+      console.log("Attempting Google SignIn")
+      await GoogleSignIn();
+      navigate("/select-interest");
+    }catch(err){
+      console.error("An error occured while signing in with Google", err.message);
+    }
   };
 
   return (
@@ -48,7 +64,13 @@ const Login = () => {
           </button>
         </form>
 
-        <GoogleSignIn />
+        <button 
+          className="button button-google"
+          onClick={handleGoogleSignIn}
+        >
+          <FcGoogle size={20} style={{ marginRight: "10px" }} />
+          Sign in with Google
+        </button> 
 
         <p className="auth-footer">
           Dont have an account? <Link to="/register">Sign up</Link>

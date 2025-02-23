@@ -1,24 +1,43 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 import "../styles/auth.css"; 
 import ParticlesBackground from "../components/ParticlesBackground";
-import GoogleSignIn from "../components/GoogleSignIn";
+
 
 const Signup = () => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const { signUp } = useAuth();
+
+  const handleSignup = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    // Add your signup logic here (e.g., API call to register the user)
-    console.log("Signing up with:", username, email, password);
-  };
+
+    setLoading(true);
+    setError(null);
+
+    try{
+      await signUp(email, password);
+      alert("SignUp successful! Please LogIn");
+      navigate("/login");
+    }catch(err){
+      setError(err.message)
+    }finally{
+      setLoading(false);
+    }
+  }
+
 
   return (
     <div className="auth-container">
@@ -28,12 +47,12 @@ const Signup = () => {
 
         <form onSubmit={handleSignup}>
           <div className="input-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
@@ -71,12 +90,15 @@ const Signup = () => {
             />
           </div>
 
-          <button type="submit" className="button button-primary">
-            Sign Up
+          <button 
+            type="submit" 
+            className="button button-primary"
+            disabled={loading}
+          >
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
 
-        <GoogleSignIn />
 
         <p className="auth-footer">
           Already have an account? <Link to="/login">Login</Link>
