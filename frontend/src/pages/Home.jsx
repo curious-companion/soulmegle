@@ -3,22 +3,23 @@ import "../styles/home.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../context/authContext";
 
 const Home = () => {
   const navigate = useNavigate();
   const[error, setError] = useState(null);
+  const { skipSignIn } = useAuth();
 
-  const handleSkipSignIn = ()=>{
+  const handleSkipSignIn = async () => {
     try{
-      const randomUserId = `user_${Math.random().toString(36).substr(2,9)}`;
-      localStorage.setItem("userId", randomUserId);
+      await skipSignIn();
       navigate("/select-interest");
-    }catch(err){
-      console.error("An error occured in skipping sign in", err);
-      setError("An error occoured Please try again later!")
+    }catch(error){
+      console.error("Error skipping sign in", error.message);
+      setError("Failed to skip sign in");
     }
-      
-  };
+    
+  }
 
   return (
     <div className="home-container">

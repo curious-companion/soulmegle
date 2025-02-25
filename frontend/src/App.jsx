@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import { AuthProvider } from "./context/authProvider";
+import SelectInterest from "./pages/select_Interest";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="/select-interest" element={<SelectInterest />} />
         </Routes>
       </Router>
     </AuthProvider>
