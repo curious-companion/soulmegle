@@ -32,5 +32,31 @@ app.post("/save-user", async(req,res) => {
     }
 });
 
+app.post("/update-user", async(req,res) => {
+    try{
+        const { user_id, interests } = req.body;
+        
+        if(!user_id || !interests || interests.length === 0){
+            return res.status(400).json({ success: false, message: "User ID and Interests are required"});
+        }
+
+        await supabase.from("user_interest").delete().eq("user_id", user_id);
+
+        const { data, error } = await supabase.from("user_interest").insert(
+            interests.map((interest) =>({
+                user_id: user_id,
+                interest: interest,
+            }))
+        );
+
+        if(error) throw error;
+
+        res.status(200).json({ success: true, message: "Interests updated successfully", data});
+    }catch(error){
+        console.error("Error updating interests", error);
+        res.status(500).json({ success: false, message: error.message})
+    }
+})
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
