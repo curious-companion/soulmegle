@@ -140,6 +140,7 @@ export const AuthProvider = ({ children }) =>{
             setUser(userCredential.user);
             console.log("User Signed in Anonymously", userCredential.user);
             await saveUserToSupabase(userCredential.user);
+            return userCredential.user;
         }catch(error){
             console.error("Error signing in anonymously", error.message);
         }finally{
@@ -148,9 +149,9 @@ export const AuthProvider = ({ children }) =>{
     }
     
     return (
-        <AuthProvider value={{user, login, signUp, logout, GoogleSignIn, googleSignInWithRedirect, skipSignIn}}>
+        <AuthContext.Provider value={{user, login, signUp, logout, GoogleSignIn, googleSignInWithRedirect, skipSignIn}}>
             {!loading && children}
-        </AuthProvider>
+        </AuthContext.Provider>
     );
 };
 
