@@ -35,8 +35,6 @@ const saveUserToSupabase = async (user)=>{
 };
 
 
-
-
 export const AuthProvider = ({ children }) =>{
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -127,7 +125,6 @@ export const AuthProvider = ({ children }) =>{
         try{
             console.log("Attempting to Google SignIn with Redirect");
             const userCredential = await signInWithRedirect(auth, googleProvider);
-            setUser(userCredential.user);
             console.log("User Logged in", userCredential.user);
         }catch(err){
             console.error("Error signing in with Google", err.message);
@@ -151,9 +148,9 @@ export const AuthProvider = ({ children }) =>{
     }
     
     return (
-        <AuthContext.Provider value={{user, login, signUp, logout, GoogleSignIn, googleSignInWithRedirect, skipSignIn}}>
+        <AuthProvider value={{user, login, signUp, logout, GoogleSignIn, googleSignInWithRedirect, skipSignIn}}>
             {!loading && children}
-        </AuthContext.Provider>
+        </AuthProvider>
     );
 };
 

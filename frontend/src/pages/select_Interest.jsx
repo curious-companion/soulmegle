@@ -9,6 +9,7 @@ const interests = ["Sports", "Technology", "Coding", "Entertainment"];
 const SelectInterest = () => {
     const [ selectedInterest, setSelectedInterest ] = useState(null);
     const [userId, setUserId] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const auth = getAuth();
@@ -22,6 +23,7 @@ const SelectInterest = () => {
 
         return () => unsubscribe();
     }, []);
+
 
 
     const handleSelectInterest = async(interest) => {
@@ -44,6 +46,7 @@ const SelectInterest = () => {
             const data = await response.json();
             if(response.ok){
                 console.log("Interest saved successfully", data);
+                navigate("/video-chat");
             }else{
                 console.error("Failed to save Interest", data);
             }

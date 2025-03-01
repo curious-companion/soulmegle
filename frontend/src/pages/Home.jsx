@@ -39,7 +39,7 @@ const Home = () => {
             Sign Up
           </Link>
           <button className="button button-skip" onClick={handleSkipSignIn} >Skip Sign In</button>
-          {error && <p>{error}</p>}
+          {error && <p>{ error }</p>}
         </div>
       </div>
     </div>
