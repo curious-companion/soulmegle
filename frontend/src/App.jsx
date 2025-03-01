@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import { AuthProvider } from "./context/AuthProvider.js";
+import { AuthProvider } from "./context/AuthProvider.jsx";
 import SelectInterest from "./pages/select_Interest";
 import VideoChat from "./pages/VideoChat.jsx";
 
